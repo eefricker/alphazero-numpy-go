@@ -40,7 +40,8 @@ Policy Probability Map:
 [[0.001 0.002 0.   ]
  [0.002 0.992 0.002]
  [0.    0.002 0.   ]]
->> SUCCESS: The AI prefers the Center (1,1).'''
+>> SUCCESS: The AI prefers the Center (1,1).
+text'''
 
 ## How to run
 
