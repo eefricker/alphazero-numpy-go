@@ -187,7 +187,7 @@ def batch_norm_forward(x, gamma, beta, mean, var, epsilon=1e-3, mode='train',mom
 		beta_reshaped = beta.reshape(1, C, 1, 1)
 		out = gamma_reshaped * x_norm + beta_reshaped
 		
-		# 3. Cache the calculated batch stats for the backward pass!
+		# 3. Cache the calculated batch stats for the backward pass
 		cache = (x_norm, gamma, x_minus_mean, batch_var, epsilon)
 		return out, cache
 		
@@ -438,13 +438,13 @@ def conv2d_backward(dout, x, w, b, stride=1, pad=1):
 			# --- dw Calculation ---
 			# dw requires multiplying dout with x_slice, summing across the Batch (N) dimension.
 			# We align axis 0 (N) of dout_slice with axis 0 (N) of x_slice.
-			# Output naturally becomes (F, C, HH, WW), which matches dw perfectly!
+			# Output naturally becomes (F, C, HH, WW), which matches dw
 			dw += np.tensordot(dout_slice, x_slice, axes=([0], [0]))
 			
 			# --- dx Calculation ---
 			# dx requires multiplying dout with the weights w, summing across the Filters (F).
 			# We align axis 1 (F) of dout_slice with axis 0 (F) of w.
-			# Output naturally becomes (N, C, HH, WW), which drops perfectly into dx_pad!
+			# Output naturally becomes (N, C, HH, WW), which drops into dx_pad
 			dx_pad[:, :, vert_start:vert_end, horiz_start:horiz_end] += np.tensordot(dout_slice, w, axes=([1], [0]))
 	
 	# 3. Strip padding from dx
@@ -459,7 +459,6 @@ def batch_norm_backward(dout, cache):
 	"""
 	Backward pass for batch normalization.
 	Uses the cache tuple (x_norm, gamma, x_minus_mean, var, epsilon) saved during forward.
-	Note: You need to modify your forward pass to return this cache!
 	"""
 	x_norm, gamma, x_minus_mean, var, epsilon = cache
 	N, C, H, W = dout.shape
@@ -677,7 +676,6 @@ def run_neural_net(game, params):
 		'bn2_m': params['res_bn2_m'], 'bn2_v': params['res_bn2_v'],
 	}
 	
-	# FIX: Unpack the tuple! Ignore the cache (_)
 	out, _ = residual_block_forward(out, res_params)
 	
 	# 4. Heads

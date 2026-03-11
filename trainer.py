@@ -237,10 +237,10 @@ def complete_training_loop(training_games, training_steps_per_game=10, min_buffe
 		raw_data = execute_self_play(params, num_games=1)
 		replay_buffer.add(raw_data)
 		
-		# B. THE FIX: Do not train until we cross the threshold
+		# B. Do not train until we cross the threshold
 		if len(replay_buffer) < min_buffer_size:
 			# Print a status update during burn-in so you know it isn't frozen
-			if (i + 1) % 10 == 0:
+			if (i + 1) % 5 == 0:
 				print(f"Burn-in progress: {len(replay_buffer)}/{min_buffer_size} states collected...")
 			continue
 			
@@ -271,7 +271,7 @@ def complete_training_loop(training_games, training_steps_per_game=10, min_buffe
 		time_elapsed = dt.datetime.today() - tic
 		s_per_game = time_elapsed.seconds / (i + 1)
 		
-		if (i % 10 == 9):
+		if (i % 250 == 249):
 			print(f"=== Completed {i+1} iterations, Time elapsed = {time_elapsed}, s/game = {s_per_game:.2f} ===")
 			print(f"  Buffer Size: {len(replay_buffer)}")
 			print(f"  Avg Loss Value (MSE): {avg_loss_v:.4f}")
@@ -280,5 +280,5 @@ def complete_training_loop(training_games, training_steps_per_game=10, min_buffe
 			print(f"  Total Loss: {avg_loss_v + avg_loss_p + avg_loss_l2:.4f}")
 			print("-" * 30)
 
-	print("\nTraining Complete!")
+	print("\nTraining Complete")
 	return params
